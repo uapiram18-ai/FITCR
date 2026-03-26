@@ -1,0 +1,837 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>FITCR — Ropa Deportiva de Segunda Mano</title>
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:ital,wght@0,300;0,400;0,600;1,300&display=swap" rel="stylesheet"/>
+  <style>
+    :root {
+      --black: #0a0a0a;
+      --white: #f5f2eb;
+      --cream: #ece8df;
+      --green: #b8ff57;
+      --green-dark: #8fd43a;
+      --gray: #3a3a3a;
+      --gray-light: #c8c4bb;
+      --wa-green: #25D366;
+      --wa-num: +50672814723;
+    }
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body {
+      background-color: var(--black);
+      color: var(--white);
+      font-family: 'DM Sans', sans-serif;
+      font-weight: 300;
+      overflow-x: hidden;
+    }
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");
+      pointer-events: none;
+      z-index: 9999;
+      opacity: 0.35;
+    }
+
+    /* NAV */
+    nav {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+      display: flex; justify-content: space-between; align-items: center;
+      padding: 1.2rem 3rem;
+      backdrop-filter: blur(12px);
+      background: rgba(10,10,10,0.8);
+      border-bottom: 1px solid rgba(245,242,235,0.07);
+    }
+    .logo {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 2.2rem; letter-spacing: 0.14em;
+      color: var(--green); text-decoration: none;
+    }
+    .logo span { color: var(--white); }
+    nav ul { list-style: none; display: flex; gap: 2.5rem; }
+    nav ul a {
+      color: var(--gray-light); text-decoration: none;
+      font-size: 0.82rem; letter-spacing: 0.1em; text-transform: uppercase;
+      transition: color 0.2s;
+    }
+    nav ul a:hover { color: var(--green); }
+    .nav-cta {
+      background: var(--green) !important; color: var(--black) !important;
+      padding: 0.5rem 1.3rem; border-radius: 2px; font-weight: 600 !important;
+      transition: background 0.2s !important;
+    }
+    .nav-cta:hover { background: var(--green-dark) !important; }
+
+    /* HERO */
+    .hero {
+      min-height: 100vh;
+      display: grid; grid-template-columns: 1fr 1fr;
+      align-items: center; padding: 8rem 3rem 4rem; gap: 4rem;
+      position: relative; overflow: hidden;
+    }
+    .hero::after {
+      content: ''; position: absolute; top: -200px; right: -200px;
+      width: 700px; height: 700px;
+      background: radial-gradient(circle, rgba(184,255,87,0.1) 0%, transparent 70%);
+      pointer-events: none;
+    }
+    .hero-tag {
+      display: inline-block; font-size: 0.73rem; letter-spacing: 0.2em;
+      text-transform: uppercase; color: var(--green);
+      border: 1px solid var(--green); padding: 0.3rem 0.9rem;
+      border-radius: 2px; margin-bottom: 1.5rem;
+      animation: fadeUp 0.6s ease both;
+    }
+    .hero h1 {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: clamp(4rem, 8vw, 8rem);
+      line-height: 0.92; letter-spacing: 0.02em; margin-bottom: 1.8rem;
+      animation: fadeUp 0.6s 0.1s ease both;
+    }
+    .hero h1 em { font-style: normal; color: var(--green); display: block; }
+    .hero p {
+      color: var(--gray-light); font-size: 1.05rem; line-height: 1.7;
+      max-width: 440px; margin-bottom: 2.5rem;
+      animation: fadeUp 0.6s 0.2s ease both;
+    }
+    .hero-btns { display: flex; gap: 1rem; flex-wrap: wrap; animation: fadeUp 0.6s 0.3s ease both; }
+
+    .btn-primary {
+      background: var(--green); color: var(--black);
+      padding: 0.9rem 2rem; font-family: 'DM Sans', sans-serif;
+      font-size: 0.9rem; font-weight: 600; letter-spacing: 0.06em;
+      text-transform: uppercase; border: none; cursor: pointer;
+      text-decoration: none; display: inline-block;
+      transition: background 0.2s, transform 0.15s;
+    }
+    .btn-primary:hover { background: var(--green-dark); transform: translateY(-2px); }
+
+    .btn-outline {
+      background: transparent; color: var(--white);
+      padding: 0.9rem 2rem; font-family: 'DM Sans', sans-serif;
+      font-size: 0.9rem; font-weight: 400; letter-spacing: 0.06em;
+      text-transform: uppercase; border: 1px solid rgba(245,242,235,0.3);
+      cursor: pointer; text-decoration: none; display: inline-block;
+      transition: border-color 0.2s, color 0.2s;
+    }
+    .btn-outline:hover { border-color: var(--white); }
+
+    /* Hero visual */
+    .hero-visual {
+      display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;
+      animation: fadeUp 0.7s 0.2s ease both;
+    }
+    .hero-card {
+      background: var(--gray); border-radius: 4px;
+      aspect-ratio: 3/4; overflow: hidden; position: relative;
+      display: flex; align-items: flex-end;
+    }
+    .hero-card:first-child { grid-column: span 2; aspect-ratio: 2/1; }
+    .hero-card-inner {
+      width: 100%; height: 100%;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 4rem;
+      background: linear-gradient(135deg, #1e1e1e 0%, #2d2d2d 100%);
+      position: relative;
+    }
+    .hero-card-label {
+      position: absolute; bottom: 0; left: 0; right: 0;
+      background: rgba(10,10,10,0.85); backdrop-filter: blur(8px);
+      padding: 0.8rem 1rem; font-size: 0.75rem; letter-spacing: 0.08em;
+      text-transform: uppercase; display: flex; justify-content: space-between; align-items: center;
+    }
+    .badge-price {
+      background: var(--green); color: var(--black);
+      font-weight: 700; font-size: 0.8rem; padding: 0.2rem 0.6rem; border-radius: 2px;
+    }
+
+    /* STATS */
+    .stats-bar {
+      background: var(--green); color: var(--black);
+      display: flex; justify-content: center; overflow: hidden;
+    }
+    .stat-item {
+      padding: 1.2rem 3rem; text-align: center;
+      border-right: 1px solid rgba(0,0,0,0.12); flex: 1; max-width: 280px;
+    }
+    .stat-item:last-child { border-right: none; }
+    .stat-num { font-family: 'Bebas Neue', sans-serif; font-size: 2.2rem; display: block; line-height: 1; }
+    .stat-label { font-size: 0.72rem; letter-spacing: 0.12em; text-transform: uppercase; opacity: 0.65; }
+
+    /* SECTIONS */
+    section { padding: 5rem 3rem; }
+    .section-label { font-size: 0.72rem; letter-spacing: 0.25em; text-transform: uppercase; color: var(--green); margin-bottom: 0.6rem; }
+    .section-title { font-family: 'Bebas Neue', sans-serif; font-size: clamp(2.5rem, 5vw, 4.5rem); letter-spacing: 0.03em; line-height: 1; margin-bottom: 1rem; }
+    .section-sub { color: var(--gray-light); font-size: 1rem; line-height: 1.65; max-width: 480px; }
+
+    /* CATEGORIES */
+    .cats-header { display: flex; justify-content: space-between; align-items: flex-end; margin-bottom: 3rem; flex-wrap: wrap; gap: 1.5rem; }
+    .cats-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(180px, 1fr)); gap: 1rem; }
+    .cat-card {
+      background: #141414; border: 1px solid #222; border-radius: 4px;
+      padding: 2rem 1.5rem; cursor: pointer; text-align: center;
+      transition: border-color 0.25s, transform 0.2s, background 0.25s;
+    }
+    .cat-card:hover { border-color: var(--green); background: #1a1a1a; transform: translateY(-4px); }
+    .cat-icon { font-size: 2.5rem; margin-bottom: 1rem; display: block; }
+    .cat-name { font-family: 'Bebas Neue', sans-serif; font-size: 1.4rem; letter-spacing: 0.06em; margin-bottom: 0.3rem; }
+    .cat-count { font-size: 0.78rem; color: var(--gray-light); letter-spacing: 0.06em; }
+
+    /* PRODUCTS */
+    .products-section { background: #0e0e0e; }
+    .products-header { display: flex; justify-content: space-between; align-items: flex-end; margin-bottom: 3rem; flex-wrap: wrap; gap: 1.5rem; }
+    .filter-tabs { display: flex; gap: 0.5rem; flex-wrap: wrap; }
+    .filter-tab {
+      padding: 0.45rem 1.1rem; font-size: 0.78rem; letter-spacing: 0.08em;
+      text-transform: uppercase; border: 1px solid #333; background: transparent;
+      color: var(--gray-light); cursor: pointer; border-radius: 2px; transition: all 0.2s;
+    }
+    .filter-tab.active, .filter-tab:hover { border-color: var(--green); color: var(--green); }
+    .products-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 1.5rem; }
+    .product-card {
+      background: #141414; border: 1px solid #1e1e1e; border-radius: 4px;
+      overflow: hidden; transition: transform 0.25s, border-color 0.25s; cursor: pointer;
+    }
+    .product-card:hover { transform: translateY(-5px); border-color: #333; }
+    .product-img {
+      aspect-ratio: 1/1; background: linear-gradient(135deg, #1c1c1c, #252525);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 3.5rem; position: relative; overflow: hidden;
+    }
+    .product-img::after {
+      content: ''; position: absolute; inset: 0;
+      background: linear-gradient(to bottom, transparent 60%, rgba(0,0,0,0.4) 100%);
+    }
+    .condition-badge {
+      position: absolute; top: 0.8rem; left: 0.8rem; z-index: 2;
+      font-size: 0.65rem; letter-spacing: 0.1em; text-transform: uppercase;
+      padding: 0.25rem 0.6rem; border-radius: 2px; font-weight: 600;
+    }
+    .cond-a { background: #b8ff57; color: #0a0a0a; }
+    .cond-b { background: #57c4ff; color: #0a0a0a; }
+    .cond-c { background: #ffb857; color: #0a0a0a; }
+    .product-info { padding: 1.2rem; }
+    .product-brand { font-size: 0.68rem; letter-spacing: 0.2em; text-transform: uppercase; color: var(--green); margin-bottom: 0.3rem; }
+    .product-name { font-weight: 400; font-size: 1rem; margin-bottom: 0.6rem; line-height: 1.35; }
+    .product-meta { display: flex; justify-content: space-between; align-items: center; }
+    .product-price { font-family: 'Bebas Neue', sans-serif; font-size: 1.6rem; color: var(--green); letter-spacing: 0.04em; }
+    .product-size { font-size: 0.72rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--gray-light); background: #222; padding: 0.25rem 0.6rem; border-radius: 2px; }
+    .product-wa-btn {
+      width: 100%; margin-top: 1rem; padding: 0.7rem;
+      background: #1a1a1a; border: 1px solid #2a2a2a;
+      color: var(--gray-light); font-family: 'DM Sans', sans-serif;
+      font-size: 0.78rem; letter-spacing: 0.08em; text-transform: uppercase;
+      cursor: pointer; display: flex; align-items: center; justify-content: center;
+      gap: 0.5rem; transition: background 0.2s, color 0.2s, border-color 0.2s;
+      text-decoration: none; border-radius: 2px;
+    }
+    .product-wa-btn:hover { background: var(--wa-green); border-color: var(--wa-green); color: white; }
+
+    /* MARQUEE */
+    .brands-section {
+      background: #0e0e0e; padding: 2.5rem 0; overflow: hidden;
+      border-top: 1px solid #1a1a1a; border-bottom: 1px solid #1a1a1a;
+    }
+    .marquee-track { display: flex; gap: 4rem; animation: marquee 25s linear infinite; width: max-content; }
+    .brand-item { font-family: 'Bebas Neue', sans-serif; font-size: 1.8rem; letter-spacing: 0.15em; color: #2a2a2a; white-space: nowrap; transition: color 0.3s; }
+    .brand-item:hover { color: var(--green); }
+    @keyframes marquee { from { transform: translateX(0); } to { transform: translateX(-50%); } }
+
+    /* HOW IT WORKS */
+    .hiw-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); gap: 2rem; margin-top: 3rem; }
+    .hiw-step { padding-left: 1rem; border-left: 2px solid #252525; transition: border-color 0.3s; }
+    .hiw-step:hover { border-color: var(--green); }
+    .step-num { font-family: 'Bebas Neue', sans-serif; font-size: 3.5rem; color: #252525; line-height: 1; margin-bottom: 0.5rem; transition: color 0.3s; }
+    .hiw-step:hover .step-num { color: var(--green); }
+    .step-title { font-weight: 600; font-size: 1rem; margin-bottom: 0.5rem; }
+    .step-text { color: var(--gray-light); font-size: 0.9rem; line-height: 1.65; }
+
+    /* TESTIMONIALS */
+    .testimonials-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 1.5rem; margin-top: 3rem; }
+    .testi-card { background: #111; border: 1px solid #1e1e1e; border-radius: 4px; padding: 2rem; transition: border-color 0.25s; }
+    .testi-card:hover { border-color: #333; }
+    .stars { color: var(--green); font-size: 1rem; margin-bottom: 1rem; letter-spacing: 0.1em; }
+    .testi-text { color: var(--gray-light); font-size: 0.95rem; line-height: 1.7; font-style: italic; margin-bottom: 1.5rem; }
+    .testi-author { display: flex; align-items: center; gap: 0.8rem; }
+    .author-avatar { width: 38px; height: 38px; border-radius: 50%; background: var(--green); display: flex; align-items: center; justify-content: center; font-weight: 700; font-size: 0.85rem; color: var(--black); flex-shrink: 0; }
+    .author-name { font-size: 0.88rem; font-weight: 600; }
+    .author-sport { font-size: 0.75rem; color: var(--gray-light); }
+
+    /* SELL */
+    .sell-section {
+      background: var(--green); color: var(--black);
+      display: grid; grid-template-columns: 1fr 1fr; gap: 4rem; align-items: center;
+    }
+    .sell-section .section-label { color: rgba(10,10,10,0.5); }
+    .sell-section .section-title { color: var(--black); }
+    .sell-section .section-sub { color: rgba(10,10,10,0.65); max-width: 400px; }
+    .sell-perks { display: flex; flex-direction: column; gap: 1.2rem; margin-top: 2rem; }
+    .sell-perk { display: flex; gap: 1rem; align-items: flex-start; }
+    .perk-icon { width: 36px; height: 36px; background: rgba(10,10,10,0.12); border-radius: 2px; display: flex; align-items: center; justify-content: center; font-size: 1.1rem; flex-shrink: 0; }
+    .perk-text strong { display: block; font-weight: 600; margin-bottom: 0.2rem; font-size: 0.95rem; }
+    .perk-text span { font-size: 0.85rem; opacity: 0.65; line-height: 1.4; }
+    .btn-dark {
+      background: var(--black); color: var(--green);
+      padding: 0.9rem 2rem; font-family: 'DM Sans', sans-serif;
+      font-size: 0.9rem; font-weight: 600; letter-spacing: 0.06em;
+      text-transform: uppercase; border: none; cursor: pointer;
+      text-decoration: none; display: inline-block; margin-top: 2rem;
+      transition: opacity 0.2s;
+    }
+    .btn-dark:hover { opacity: 0.85; }
+
+    /* FOOTER */
+    footer { background: #050505; padding: 4rem 3rem 2rem; border-top: 1px solid #1a1a1a; }
+    .footer-top { display: grid; grid-template-columns: 2fr 1fr 1fr 1fr; gap: 3rem; margin-bottom: 3rem; }
+    .footer-brand .logo { display: inline-block; margin-bottom: 1rem; font-size: 1.8rem; }
+    .footer-desc { color: var(--gray-light); font-size: 0.88rem; line-height: 1.7; margin-bottom: 1.5rem; }
+    .social-links { display: flex; gap: 0.7rem; }
+    .social-link { width: 36px; height: 36px; border: 1px solid #2a2a2a; border-radius: 2px; display: flex; align-items: center; justify-content: center; font-size: 1rem; text-decoration: none; color: var(--gray-light); transition: border-color 0.2s, color 0.2s; }
+    .social-link:hover { border-color: var(--green); color: var(--green); }
+    .footer-col h4 { font-size: 0.72rem; letter-spacing: 0.2em; text-transform: uppercase; color: var(--white); margin-bottom: 1.2rem; }
+    .footer-col ul { list-style: none; }
+    .footer-col ul li { margin-bottom: 0.6rem; }
+    .footer-col ul a { color: var(--gray-light); text-decoration: none; font-size: 0.88rem; transition: color 0.2s; }
+    .footer-col ul a:hover { color: var(--green); }
+    .footer-bottom { display: flex; justify-content: space-between; align-items: center; padding-top: 2rem; border-top: 1px solid #1a1a1a; flex-wrap: wrap; gap: 1rem; }
+    .footer-bottom p { color: var(--gray-light); font-size: 0.78rem; }
+    .eco-badge { font-size: 0.75rem; color: var(--green); border: 1px solid var(--green); padding: 0.3rem 0.8rem; border-radius: 2px; letter-spacing: 0.06em; }
+
+    /* WHATSAPP FLOAT */
+    .wa-float { position: fixed; bottom: 2rem; right: 2rem; z-index: 1000; display: flex; flex-direction: column; align-items: flex-end; gap: 0.6rem; }
+    .wa-tooltip {
+      background: var(--white); color: var(--black);
+      font-size: 0.82rem; font-weight: 600;
+      padding: 0.5rem 1rem; border-radius: 2px;
+      white-space: nowrap; box-shadow: 0 4px 20px rgba(0,0,0,0.4);
+      animation: tooltipPop 0.4s 1.5s ease both; opacity: 0;
+      position: relative;
+    }
+    .wa-tooltip::after {
+      content: ''; position: absolute; right: 1.3rem; bottom: -6px;
+      width: 0; height: 0;
+      border-left: 6px solid transparent; border-right: 6px solid transparent;
+      border-top: 6px solid var(--white);
+    }
+    .wa-btn-wrap { position: relative; display: flex; align-items: center; justify-content: center; }
+    .wa-pulse { position: absolute; width: 60px; height: 60px; border-radius: 50%; background: rgba(37,211,102,0.35); animation: pulse 2s 1s ease-out infinite; }
+    .wa-btn {
+      width: 60px; height: 60px; background: var(--wa-green); border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      text-decoration: none; box-shadow: 0 4px 20px rgba(37,211,102,0.4);
+      transition: transform 0.2s, box-shadow 0.2s;
+      animation: waPop 0.5s 0.5s ease both; opacity: 0; position: relative; z-index: 1;
+    }
+    .wa-btn:hover { transform: scale(1.1); box-shadow: 0 6px 28px rgba(37,211,102,0.6); }
+    .wa-btn svg { width: 30px; height: 30px; fill: white; }
+
+    /* ANIMATIONS */
+    @keyframes fadeUp { from { opacity: 0; transform: translateY(22px); } to { opacity: 1; transform: translateY(0); } }
+    @keyframes waPop { from { opacity: 0; transform: scale(0.6); } to { opacity: 1; transform: scale(1); } }
+    @keyframes tooltipPop { from { opacity: 0; transform: translateX(8px); } to { opacity: 1; transform: translateX(0); } }
+    @keyframes pulse { 0% { transform: scale(1); opacity: 0.7; } 100% { transform: scale(1.85); opacity: 0; } }
+
+    /* RESPONSIVE */
+    @media (max-width: 900px) {
+      nav { padding: 1rem 1.5rem; }
+      nav ul { display: none; }
+      .hero { grid-template-columns: 1fr; padding: 6rem 1.5rem 3rem; }
+      .hero-visual { display: none; }
+      section { padding: 3.5rem 1.5rem; }
+      .stats-bar { flex-wrap: wrap; }
+      .sell-section { grid-template-columns: 1fr; gap: 2rem; }
+      .footer-top { grid-template-columns: 1fr 1fr; }
+    }
+    @media (max-width: 600px) {
+      .footer-top { grid-template-columns: 1fr; }
+      .footer-bottom { flex-direction: column; text-align: center; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <a href="#" class="logo">FIT<span>CR</span></a>
+  <ul>
+    <li><a href="#categorias">Categorías</a></li>
+    <li><a href="#productos">Productos</a></li>
+    <li><a href="#como-funciona">Cómo funciona</a></li>
+    <li><a href="#vender">Vender</a></li>
+    <li><a href="https://wa.me/50672814723?text=Hola%2C%20quiero%20saber%20más%20sobre%20FITCR" target="_blank" class="nav-cta">WhatsApp</a></li>
+  </ul>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-content">
+    <span class="hero-tag">🌱 Moda sostenible · Segunda vida · Costa Rica</span>
+    <h1>TEST<em>MÁS LEJOS</em>POR MENOS</h1>
+    <p>Ropa deportiva de segunda mano en perfectas condiciones. Nike, Adidas, Under Armour y más — precios que no frenan tu entrenamiento en Costa Rica.</p>
+    <div class="hero-btns">
+      <a href="#productos" class="btn-primary">Ver catálogo</a>
+      <a href="https://wa.me/50672814723?text=Hola%20FITCR%2C%20quiero%20conocer%20los%20productos%20disponibles" target="_blank" class="btn-outline">💬 Consultar por WhatsApp</a>
+    </div>
+  </div>
+  <div class="hero-visual">
+    <div class="hero-card">
+      <div class="hero-card-inner">👟</div>
+      <div class="hero-card-label">
+        <span>Nike Air Max · Talla 42</span>
+        <span class="badge-price">₡25.000</span>
+      </div>
+    </div>
+    <div class="hero-card">
+      <div class="hero-card-inner">🧥</div>
+      <div class="hero-card-label">
+        <span>Adidas · Chaqueta M</span>
+        <span class="badge-price">₡18.000</span>
+      </div>
+    </div>
+    <div class="hero-card">
+      <div class="hero-card-inner">🩳</div>
+      <div class="hero-card-label">
+        <span>UA · Shorts L</span>
+        <span class="badge-price">₡9.000</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- STATS -->
+<div class="stats-bar">
+  <div class="stat-item">
+    <span class="stat-num">500+</span>
+    <span class="stat-label">Prendas disponibles</span>
+  </div>
+  <div class="stat-item">
+    <span class="stat-num">70%</span>
+    <span class="stat-label">Ahorro promedio</span>
+  </div>
+  <div class="stat-item">
+    <span class="stat-num">1.200+</span>
+    <span class="stat-label">Ticos satisfechos</span>
+  </div>
+  <div class="stat-item">
+    <span class="stat-num">100%</span>
+    <span class="stat-label">Revisadas y verificadas</span>
+  </div>
+</div>
+
+<!-- CATEGORÍAS -->
+<section id="categorias">
+  <div class="cats-header">
+    <div>
+      <div class="section-label">Explora</div>
+      <div class="section-title">CATEGORÍAS</div>
+      <p class="section-sub">Encuentra exactamente lo que necesitas para tu deporte favorito.</p>
+    </div>
+  </div>
+  <div class="cats-grid">
+    <div class="cat-card"><span class="cat-icon">👟</span><div class="cat-name">Calzado</div><div class="cat-count">120 artículos</div></div>
+    <div class="cat-card"><span class="cat-icon">👕</span><div class="cat-name">Camisetas</div><div class="cat-count">98 artículos</div></div>
+    <div class="cat-card"><span class="cat-icon">🩳</span><div class="cat-name">Shorts</div><div class="cat-count">74 artículos</div></div>
+    <div class="cat-card"><span class="cat-icon">🧥</span><div class="cat-name">Chaquetas</div><div class="cat-count">52 artículos</div></div>
+    <div class="cat-card"><span class="cat-icon">🧢</span><div class="cat-name">Accesorios</div><div class="cat-count">40 artículos</div></div>
+    <div class="cat-card"><span class="cat-icon">🎽</span><div class="cat-name">Conjuntos</div><div class="cat-count">30 artículos</div></div>
+  </div>
+</section>
+
+<!-- MARQUEE -->
+<div class="brands-section">
+  <div class="marquee-track">
+    <span class="brand-item">NIKE</span><span class="brand-item">·</span>
+    <span class="brand-item">ADIDAS</span><span class="brand-item">·</span>
+    <span class="brand-item">UNDER ARMOUR</span><span class="brand-item">·</span>
+    <span class="brand-item">PUMA</span><span class="brand-item">·</span>
+    <span class="brand-item">NEW BALANCE</span><span class="brand-item">·</span>
+    <span class="brand-item">REEBOK</span><span class="brand-item">·</span>
+    <span class="brand-item">COLUMBIA</span><span class="brand-item">·</span>
+    <span class="brand-item">ASICS</span><span class="brand-item">·</span>
+    <span class="brand-item">FILA</span><span class="brand-item">·</span>
+    <span class="brand-item">LOTTO</span><span class="brand-item">·</span>
+    <!-- duplicate -->
+    <span class="brand-item">NIKE</span><span class="brand-item">·</span>
+    <span class="brand-item">ADIDAS</span><span class="brand-item">·</span>
+    <span class="brand-item">UNDER ARMOUR</span><span class="brand-item">·</span>
+    <span class="brand-item">PUMA</span><span class="brand-item">·</span>
+    <span class="brand-item">NEW BALANCE</span><span class="brand-item">·</span>
+    <span class="brand-item">REEBOK</span><span class="brand-item">·</span>
+    <span class="brand-item">COLUMBIA</span><span class="brand-item">·</span>
+    <span class="brand-item">ASICS</span><span class="brand-item">·</span>
+    <span class="brand-item">FILA</span><span class="brand-item">·</span>
+    <span class="brand-item">LOTTO</span><span class="brand-item">·</span>
+  </div>
+</div>
+
+<!-- PRODUCTOS -->
+<section id="productos" class="products-section">
+  <div class="products-header">
+    <div>
+      <div class="section-label">Lo más reciente</div>
+      <div class="section-title">NUEVOS INGRESOS</div>
+    </div>
+    <div class="filter-tabs">
+      <button class="filter-tab active" onclick="filterTab(this)">Todos</button>
+      <button class="filter-tab" onclick="filterTab(this)">Hombre</button>
+      <button class="filter-tab" onclick="filterTab(this)">Mujer</button>
+      <button class="filter-tab" onclick="filterTab(this)">Calzado</button>
+      <button class="filter-tab" onclick="filterTab(this)">Ropa</button>
+    </div>
+  </div>
+  <!-- ============================================================
+       🛍️ ZONA DE PRODUCTOS — AQUÍ AGREGAS O EDITAS TUS PRODUCTOS
+       
+       PARA CADA PRODUCTO COPIA ESTE BLOQUE COMPLETO:
+       ─────────────────────────────────────────────
+       <div class="product-card">
+         <div class="product-img">
+
+           👉 CONDICIÓN DEL BADGE — elige solo una opción:
+               cond-a = Verde  → "Como nuevo"
+               cond-b = Azul   → "Buen estado"
+               cond-c = Naranja → "Usado"
+
+           <span class="condition-badge cond-a">Como nuevo</span>
+
+           👉 IMAGEN — dos opciones:
+           OPCIÓN A — Emoji (fácil):
+               Escribe el emoji aquí: 👟 🧥 👕 🩳 🎽 🧢
+           OPCIÓN B — Foto real (recomendado):
+               <img src="NOMBRE-DE-TU-FOTO.jpg" style="width:100%;height:100%;object-fit:cover;">
+               (pon la foto en la misma carpeta que este archivo HTML)
+
+         </div>
+         <div class="product-info">
+           <div class="product-brand">👉 MARCA AQUÍ (ej: Nike)</div>
+           <div class="product-name">👉 NOMBRE DEL PRODUCTO AQUÍ</div>
+           <div class="product-meta">
+             <span class="product-price">👉 PRECIO AQUÍ (ej: ₡25.000)</span>
+             <span class="product-size">👉 TALLA AQUÍ (ej: M, L, T42)</span>
+           </div>
+           <a class="product-wa-btn"
+              href="https://wa.me/50672814723?text=👉 CAMBIA ESTE MENSAJE (usa %20 en lugar de espacios)"
+              target="_blank">
+             [ícono WhatsApp] Consultar por WhatsApp
+           </a>
+         </div>
+       </div>
+       ============================================================ -->
+
+  <div class="products-grid">
+
+    <!-- ──────────────────────────────────────────
+         PRODUCTO 1 — Edita los datos de este producto
+         ────────────────────────────────────────── -->
+    <div class="product-card">
+      <!-- IMAGEN / EMOJI del producto -->
+      <div class="product-img">
+        <!-- Condición: cond-a=Verde(Como nuevo) | cond-b=Azul(Buen estado) | cond-c=Naranja(Usado) -->
+        <span class="condition-badge cond-a">Como nuevo</span>
+        <!-- 👇 Cambia el emoji O pon una <img src="foto.jpg" ...> -->
+        👟
+      </div>
+      <div class="product-info">
+        <div class="product-brand">Nike</div>              <!-- 👈 MARCA -->
+        <div class="product-name">Air Zoom Pegasus 39</div> <!-- 👈 NOMBRE -->
+        <div class="product-meta">
+          <span class="product-price">₡32.000</span>        <!-- 👈 PRECIO -->
+          <span class="product-size">T42</span>             <!-- 👈 TALLA -->
+        </div>
+        <!-- 👇 Cambia el texto después de ?text= para personalizar el mensaje de WhatsApp -->
+        <a class="product-wa-btn" href="https://wa.me/50672814723?text=Hola%20FITCR%2C%20me%20interesan%20las%20Nike%20Air%20Zoom%20Pegasus%2039%20talla%2042" target="_blank">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="16" height="16" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/><path d="M12 0C5.373 0 0 5.373 0 12c0 2.125.558 4.126 1.534 5.86L0 24l6.305-1.517A11.954 11.954 0 0 0 12 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 21.818a9.808 9.808 0 0 1-5.034-1.386l-.36-.214-3.741.981 1-3.633-.235-.373A9.808 9.808 0 0 1 2.182 12C2.182 6.575 6.575 2.182 12 2.182c5.425 0 9.818 4.393 9.818 9.818 0 5.426-4.393 9.818-9.818 9.818z"/></svg>
+          Consultar por WhatsApp
+        </a>
+      </div>
+    </div>
+
+    <!-- ──────────────────────────────────────────
+         PRODUCTO 2 — Edita los datos de este producto
+         ────────────────────────────────────────── -->
+    <div class="product-card">
+      <div class="product-img">
+        <span class="condition-badge cond-b">Buen estado</span>
+        🧥
+      </div>
+      <div class="product-info">
+        <div class="product-brand">Adidas</div>             <!-- 👈 MARCA -->
+        <div class="product-name">Chaqueta Tiro Training</div> <!-- 👈 NOMBRE -->
+        <div class="product-meta">
+          <span class="product-price">₡20.000</span>        <!-- 👈 PRECIO -->
+          <span class="product-size">M</span>               <!-- 👈 TALLA -->
+        </div>
+        <a class="product-wa-btn" href="https://wa.me/50672814723?text=Hola%20FITCR%2C%20me%20interesa%20la%20Chaqueta%20Adidas%20Tiro%20talla%20M" target="_blank">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="16" height="16" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/><path d="M12 0C5.373 0 0 5.373 0 12c0 2.125.558 4.126 1.534 5.86L0 24l6.305-1.517A11.954 11.954 0 0 0 12 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 21.818a9.808 9.808 0 0 1-5.034-1.386l-.36-.214-3.741.981 1-3.633-.235-.373A9.808 9.808 0 0 1 2.182 12C2.182 6.575 6.575 2.182 12 2.182c5.425 0 9.818 4.393 9.818 9.818 0 5.426-4.393 9.818-9.818 9.818z"/></svg>
+          Consultar por WhatsApp
+        </a>
+      </div>
+    </div>
+
+    <!-- ──────────────────────────────────────────
+         PRODUCTO 3 — Edita los datos de este producto
+         ────────────────────────────────────────── -->
+    <div class="product-card">
+      <div class="product-img">
+        <span class="condition-badge cond-a">Como nuevo</span>
+        🎽
+      </div>
+      <div class="product-info">
+        <div class="product-brand">Under Armour</div>       <!-- 👈 MARCA -->
+        <div class="product-name">Conjunto Compression Sport</div> <!-- 👈 NOMBRE -->
+        <div class="product-meta">
+          <span class="product-price">₡28.000</span>        <!-- 👈 PRECIO -->
+          <span class="product-size">S</span>               <!-- 👈 TALLA -->
+        </div>
+        <a class="product-wa-btn" href="https://wa.me/50672814723?text=Hola%20FITCR%2C%20me%20interesa%20el%20Conjunto%20Under%20Armour%20talla%20S" target="_blank">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="16" height="16" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/><path d="M12 0C5.373 0 0 5.373 0 12c0 2.125.558 4.126 1.534 5.86L0 24l6.305-1.517A11.954 11.954 0 0 0 12 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 21.818a9.808 9.808 0 0 1-5.034-1.386l-.36-.214-3.741.981 1-3.633-.235-.373A9.808 9.808 0 0 1 2.182 12C2.182 6.575 6.575 2.182 12 2.182c5.425 0 9.818 4.393 9.818 9.818 0 5.426-4.393 9.818-9.818 9.818z"/></svg>
+          Consultar por WhatsApp
+        </a>
+      </div>
+    </div>
+
+    <!-- ──────────────────────────────────────────
+         PRODUCTO 4 — Edita los datos de este producto
+         ────────────────────────────────────────── -->
+    <div class="product-card">
+      <div class="product-img">
+        <span class="condition-badge cond-c">Usado</span>
+        👕
+      </div>
+      <div class="product-info">
+        <div class="product-brand">Puma</div>              <!-- 👈 MARCA -->
+        <div class="product-name">Camiseta Training Dry Cell</div> <!-- 👈 NOMBRE -->
+        <div class="product-meta">
+          <span class="product-price">₡8.000</span>        <!-- 👈 PRECIO -->
+          <span class="product-size">L</span>              <!-- 👈 TALLA -->
+        </div>
+        <a class="product-wa-btn" href="https://wa.me/50672814723?text=Hola%20FITCR%2C%20me%20interesa%20la%20Camiseta%20Puma%20talla%20L" target="_blank">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="16" height="16" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/><path d="M12 0C5.373 0 0 5.373 0 12c0 2.125.558 4.126 1.534 5.86L0 24l6.305-1.517A11.954 11.954 0 0 0 12 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 21.818a9.808 9.808 0 0 1-5.034-1.386l-.36-.214-3.741.981 1-3.633-.235-.373A9.808 9.808 0 0 1 2.182 12C2.182 6.575 6.575 2.182 12 2.182c5.425 0 9.818 4.393 9.818 9.818 0 5.426-4.393 9.818-9.818 9.818z"/></svg>
+          Consultar por WhatsApp
+        </a>
+      </div>
+    </div>
+
+    <!-- ──────────────────────────────────────────
+         PRODUCTO 5 — Edita los datos de este producto
+         ────────────────────────────────────────── -->
+    <div class="product-card">
+      <div class="product-img">
+        <span class="condition-badge cond-a">Como nuevo</span>
+        🩳
+      </div>
+      <div class="product-info">
+        <div class="product-brand">New Balance</div>        <!-- 👈 MARCA -->
+        <div class="product-name">Short Running Accelerate</div> <!-- 👈 NOMBRE -->
+        <div class="product-meta">
+          <span class="product-price">₡12.000</span>        <!-- 👈 PRECIO -->
+          <span class="product-size">XL</span>              <!-- 👈 TALLA -->
+        </div>
+        <a class="product-wa-btn" href="https://wa.me/50672814723?text=Hola%20FITCR%2C%20me%20interesa%20el%20Short%20New%20Balance%20talla%20XL" target="_blank">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="16" height="16" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/><path d="M12 0C5.373 0 0 5.373 0 12c0 2.125.558 4.126 1.534 5.86L0 24l6.305-1.517A11.954 11.954 0 0 0 12 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 21.818a9.808 9.808 0 0 1-5.034-1.386l-.36-.214-3.741.981 1-3.633-.235-.373A9.808 9.808 0 0 1 2.182 12C2.182 6.575 6.575 2.182 12 2.182c5.425 0 9.818 4.393 9.818 9.818 0 5.426-4.393 9.818-9.818 9.818z"/></svg>
+          Consultar por WhatsApp
+        </a>
+      </div>
+    </div>
+
+    <!-- ──────────────────────────────────────────
+         PRODUCTO 6 — Edita los datos de este producto
+         ────────────────────────────────────────── -->
+    <div class="product-card">
+      <div class="product-img">
+        <span class="condition-badge cond-b">Buen estado</span>
+        👟
+      </div>
+      <div class="product-info">
+        <div class="product-brand">Reebok</div>             <!-- 👈 MARCA -->
+        <div class="product-name">Nano X2 Training</div>    <!-- 👈 NOMBRE -->
+        <div class="product-meta">
+          <span class="product-price">₡38.000</span>        <!-- 👈 PRECIO -->
+          <span class="product-size">T40</span>             <!-- 👈 TALLA -->
+        </div>
+        <a class="product-wa-btn" href="https://wa.me/50672814723?text=Hola%20FITCR%2C%20me%20interesan%20los%20Reebok%20Nano%20X2%20talla%2040" target="_blank">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="16" height="16" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/><path d="M12 0C5.373 0 0 5.373 0 12c0 2.125.558 4.126 1.534 5.86L0 24l6.305-1.517A11.954 11.954 0 0 0 12 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 21.818a9.808 9.808 0 0 1-5.034-1.386l-.36-.214-3.741.981 1-3.633-.235-.373A9.808 9.808 0 0 1 2.182 12C2.182 6.575 6.575 2.182 12 2.182c5.425 0 9.818 4.393 9.818 9.818 0 5.426-4.393 9.818-9.818 9.818z"/></svg>
+          Consultar por WhatsApp
+        </a>
+      </div>
+    </div>
+
+    <!-- ══════════════════════════════════════════
+         ➕ AGREGA MÁS PRODUCTOS AQUÍ ABAJO
+         Copia cualquier bloque de PRODUCTO de arriba
+         y pégalo aquí, luego edita sus datos.
+         ══════════════════════════════════════════ -->
+
+  </div>
+</section>
+
+<!-- CÓMO FUNCIONA -->
+<section id="como-funciona">
+  <div class="section-label">Simple y rápido</div>
+  <div class="section-title">¿CÓMO FUNCIONA?</div>
+  <p class="section-sub">Comprar ropa deportiva de segunda mano nunca fue tan fácil en Costa Rica.</p>
+  <div class="hiw-grid">
+    <div class="hiw-step">
+      <div class="step-num">01</div>
+      <div class="step-title">Explora el catálogo</div>
+      <p class="step-text">Navega por categorías o busca tu marca favorita. Todo está revisado y verificado por el equipo FITCR.</p>
+    </div>
+    <div class="hiw-step">
+      <div class="step-num">02</div>
+      <div class="step-title">Escríbenos por WhatsApp</div>
+      <p class="step-text">Haz clic en "Consultar" en cualquier producto y chatea directamente con nosotros al instante.</p>
+    </div>
+    <div class="hiw-step">
+      <div class="step-num">03</div>
+      <div class="step-title">Coordina el pago</div>
+      <p class="step-text">Aceptamos SINPE Móvil, transferencia o efectivo. Sin complicaciones.</p>
+    </div>
+    <div class="hiw-step">
+      <div class="step-num">04</div>
+      <div class="step-title">Recibe y entrena</div>
+      <p class="step-text">Envío a todo Costa Rica o retiro en punto acordado. Tu prenda lista para una segunda vida.</p>
+    </div>
+  </div>
+</section>
+
+<!-- TESTIMONIOS -->
+<section style="background:#0e0e0e;">
+  <div class="section-label">Lo que dicen</div>
+  <div class="section-title">NUESTROS CLIENTES</div>
+  <div class="testimonials-grid">
+    <div class="testi-card">
+      <div class="stars">★★★★★</div>
+      <p class="testi-text">"Compré unas Nike en perfectas condiciones a mitad de precio. El proceso por WhatsApp fue súper rápido, en 10 minutos ya tenía todo coordinado."</p>
+      <div class="testi-author">
+        <div class="author-avatar">ML</div>
+        <div><div class="author-name">María López</div><div class="author-sport">Runner · San José</div></div>
+      </div>
+    </div>
+    <div class="testi-card">
+      <div class="stars">★★★★★</div>
+      <p class="testi-text">"Increíble relación precio-calidad. Mi chaqueta Adidas llegó como nueva. Ya les compré tres veces y siempre excelente atención mae."</p>
+      <div class="testi-author">
+        <div class="author-avatar">JR</div>
+        <div><div class="author-name">Juan Rodríguez</div><div class="author-sport">Ciclismo · Alajuela</div></div>
+      </div>
+    </div>
+    <div class="testi-card">
+      <div class="stars">★★★★★</div>
+      <p class="testi-text">"Me encanta que puedo entrenar con marcas top a precios accesibles. Además contribuyo al planeta. ¡FITCR es lo mejor de CR!"</p>
+      <div class="testi-author">
+        <div class="author-avatar">SC</div>
+        <div><div class="author-name">Sara Castro</div><div class="author-sport">CrossFit · Heredia</div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- VENDER -->
+<section id="vender" class="sell-section">
+  <div>
+    <div class="section-label">¿Tienes ropa deportiva?</div>
+    <div class="section-title">VENDE CON FITCR</div>
+    <p class="section-sub">Dale una segunda oportunidad a tu ropa deportiva y gana plata fácil. Solo contáctanos por WhatsApp.</p>
+    <a href="https://wa.me/50672814723?text=Hola%20FITCR%2C%20quiero%20vender%20ropa%20deportiva%20con%20ustedes" target="_blank" class="btn-dark">Quiero vender → WhatsApp</a>
+  </div>
+  <div class="sell-perks">
+    <div class="sell-perk">
+      <div class="perk-icon">📸</div>
+      <div class="perk-text">
+        <strong>Solo envía fotos</strong>
+        <span>Mándanos fotos de tus prendas por WhatsApp y nosotros nos encargamos del resto.</span>
+      </div>
+    </div>
+    <div class="sell-perk">
+      <div class="perk-icon">💸</div>
+      <div class="perk-text">
+        <strong>Pago rápido por SINPE</strong>
+        <span>Recibe tu dinero al instante por SINPE Móvil una vez vendida la prenda.</span>
+      </div>
+    </div>
+    <div class="sell-perk">
+      <div class="perk-icon">♻️</div>
+      <div class="perk-text">
+        <strong>Contribuyes al planeta</strong>
+        <span>Cada prenda que reutilizamos reduce el impacto ambiental de la industria textil.</span>
+      </div>
+    </div>
+    <div class="sell-perk">
+      <div class="perk-icon">🚀</div>
+      <div class="perk-text">
+        <strong>Sin complicaciones</strong>
+        <span>No necesitas crear una tienda. Nosotros vendemos por vos.</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-top">
+    <div class="footer-brand">
+      <a href="#" class="logo">FIT<span>CR</span></a>
+      <p class="footer-desc">Ropa deportiva de segunda mano revisada y verificada. Moda sostenible para atletas costarricenses.</p>
+      <div class="social-links">
+        <a href="#" class="social-link" title="Instagram">📸</a>
+        <a href="#" class="social-link" title="TikTok">🎵</a>
+        <a href="https://wa.me/50672814723" target="_blank" class="social-link" title="WhatsApp">💬</a>
+      </div>
+    </div>
+    <div class="footer-col">
+      <h4>Tienda</h4>
+      <ul>
+        <li><a href="#categorias">Categorías</a></li>
+        <li><a href="#productos">Nuevos ingresos</a></li>
+        <li><a href="#vender">Vender</a></li>
+        <li><a href="#como-funciona">Cómo funciona</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h4>Ayuda</h4>
+      <ul>
+        <li><a href="https://wa.me/50672814723" target="_blank">WhatsApp</a></li>
+        <li><a href="#">Envíos CR</a></li>
+        <li><a href="#">Devoluciones</a></li>
+        <li><a href="#">Guía de tallas</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h4>Contacto</h4>
+      <ul>
+        <li><a href="https://wa.me/50672814723" target="_blank">+506 7281 4723</a></li>
+        <li><a href="#"><span class="__cf_email__" data-cfemail="22444b56415062474f434b4e0c414d4f">[email&#160;protected]</span></a></li>
+        <li><a href="#">Costa Rica 🇨🇷</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <p>© 2025 FITCR — Todos los derechos reservados</p>
+    <span class="eco-badge">🌱 Moda sostenible</span>
+  </div>
+</footer>
+
+<!-- WHATSAPP FLOTANTE -->
+<div class="wa-float">
+  <div class="wa-tooltip">¡Escríbenos por WhatsApp! 💬</div>
+  <div class="wa-btn-wrap">
+    <div class="wa-pulse"></div>
+    <a class="wa-btn" href="https://wa.me/50672814723?text=Hola%20FITCR%2C%20vi%20su%20p%C3%A1gina%20y%20quiero%20m%C3%A1s%20informaci%C3%B3n" target="_blank" title="Chatear con FITCR por WhatsApp">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+        <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/>
+        <path d="M12 0C5.373 0 0 5.373 0 12c0 2.125.558 4.126 1.534 5.86L0 24l6.305-1.517A11.954 11.954 0 0 0 12 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 21.818a9.808 9.808 0 0 1-5.034-1.386l-.36-.214-3.741.981 1-3.633-.235-.373A9.808 9.808 0 0 1 2.182 12C2.182 6.575 6.575 2.182 12 2.182c5.425 0 9.818 4.393 9.818 9.818 0 5.426-4.393 9.818-9.818 9.818z"/>
+      </svg>
+    </a>
+  </div>
+</div>
+
+<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
+  function filterTab(el) {
+    document.querySelectorAll('.filter-tab').forEach(t => t.classList.remove('active'));
+    el.classList.add('active');
+  }
+
+  // Ocultar tooltip después de 5
